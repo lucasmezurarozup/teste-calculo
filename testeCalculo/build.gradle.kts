@@ -42,6 +42,7 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     annotationProcessor("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-validation")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
 
