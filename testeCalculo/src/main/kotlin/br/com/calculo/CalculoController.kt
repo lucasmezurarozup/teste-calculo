@@ -3,15 +3,24 @@ package br.com.calculo
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
-import javax.print.attribute.standard.Media
-import javax.validation.Valid
+import java.math.BigDecimal
+import javax.inject.Inject
 
 @Controller("/calculo")
-class CalculoController {
+class CalculoController() {
 
-    @Post
+    @Post("/")
     @Consumes(MediaType.APPLICATION_JSON)
      fun calcula(@Body calculoRequest: CalculoRequest): HttpResponse<*> {
-        return HttpResponse.ok(calculoRequest);
+        val calc : BigDecimal;
+
+        val operacao: Operacao = Operacao(
+                calculoRequest.getValor(),
+                calculoRequest.getAmortizacoes()
+        );
+
+        val iof: IOF = IOF(operacao);
+
+        return HttpResponse.ok(iof.calcular());
     }
 }

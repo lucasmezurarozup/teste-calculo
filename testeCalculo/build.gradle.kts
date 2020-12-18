@@ -38,6 +38,7 @@ dependencies {
     implementation("io.micronaut.sql:micronaut-hibernate-jpa")
     testImplementation("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
+    annotationProcessor("io.micronaut:micronaut-inject-java:2.2.1")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     annotationProcessor("io.micronaut:micronaut-validation")
