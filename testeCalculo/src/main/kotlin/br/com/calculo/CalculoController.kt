@@ -12,7 +12,6 @@ class CalculoController() {
     @Post("/")
     @Consumes(MediaType.APPLICATION_JSON)
      fun calcula(@Body calculoRequest: CalculoRequest): HttpResponse<*> {
-        val calc : BigDecimal;
 
         val operacao: Operacao = Operacao(
                 calculoRequest.getValor(),
