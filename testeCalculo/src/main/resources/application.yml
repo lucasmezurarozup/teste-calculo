@@ -1,4 +1,6 @@
 micronaut:
+  server:
+    port: 8088
   application:
     name: testeCalculo
 datasources:

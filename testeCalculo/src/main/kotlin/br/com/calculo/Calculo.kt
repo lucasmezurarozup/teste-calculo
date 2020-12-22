@@ -2,25 +2,19 @@ package br.com.calculo
 
 import io.micronaut.context.annotation.Primary
 import io.micronaut.core.annotation.Introspected
+import java.math.BigDecimal
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Primary
 @Singleton
-class Calculo(calculoRequest: CalculoRequest, imposto: Imposto) {
+class Calculo(val imposto: Imposto) {
 
-    private lateinit var imposto: Imposto;
-    private lateinit var calculoRequest: CalculoRequest;
+    fun executa(): BigDecimal {
 
-
-    fun executa() {
-        if (calculoRequest != null) {
             println("Passou pelo Calculo.executa(_)")
-            this.imposto?.calcular()
-        };
-    }
 
-    fun getImposto(): Imposto {
-        return this.getImposto()
+            return this.imposto?.calcular()
+
     }
 }

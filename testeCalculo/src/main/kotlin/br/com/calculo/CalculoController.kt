@@ -1,25 +1,29 @@
 package br.com.calculo
 
+import br.com.emprestimo.*
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import java.math.BigDecimal
-import javax.inject.Inject
 
 @Controller("/calculo")
 class CalculoController() {
 
-    @Post("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-     fun calcula(@Body calculoRequest: CalculoRequest): HttpResponse<*> {
 
-        val operacao: Operacao = Operacao(
-                calculoRequest.getValor(),
-                calculoRequest.getAmortizacoes()
-        );
+    @Post("/", consumes = arrayOf(MediaType.APPLICATION_JSON))
+    fun visualizaProposta(@Body emprestimoRequest: EmprestimoRequest): HttpResponse<*> {
 
-        val iof: IOF = IOF(operacao);
+        val emprestimo: Emprestimo = Emprestimo(emprestimoRequest.getNome(),
+            emprestimoRequest.getMeses(),
+            emprestimoRequest.getValor(),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO);
 
-        return HttpResponse.ok(iof.calcular());
+
+       val simulacao = Simulacao(emprestimo);
+
+       val simulacaoResponse : SimulacaoResponse = simulacao.calcula()
+
+        return HttpResponse.ok(simulacaoResponse);
     }
 }
