@@ -1,4 +1,4 @@
-package br.com.emprestimo
+package br.com.proposta
 
 import io.micronaut.context.annotation.Primary
 import java.math.BigDecimal
@@ -6,7 +6,7 @@ import javax.inject.Singleton
 
 @Primary
 @Singleton
-class EmprestimoRequest {
+class PropostaRequest {
 
     private var nome: String = ""
     private var meses = 0

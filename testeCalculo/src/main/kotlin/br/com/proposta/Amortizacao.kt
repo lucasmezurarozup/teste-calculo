@@ -1,4 +1,4 @@
-package br.com.emprestimo
+package br.com.proposta
 
 import java.math.BigDecimal
 import java.time.LocalDateTime

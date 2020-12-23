@@ -1,10 +1,10 @@
-package br.com.emprestimo
+package br.com.proposta
 
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class Emprestimo {
+class Proposta {
 
     private var nome: String = ""
     private var meses: Int = 0
@@ -22,11 +22,11 @@ class Emprestimo {
     }
 
     public constructor(
-        nome: String,
-        meses: Int,
-        valor: BigDecimal,
-        situacao: Situacao,
-        tipoEmprestimo: TipoEmprestimo
+            nome: String,
+            meses: Int,
+            valor: BigDecimal,
+            situacao: Situacao,
+            tipoEmprestimo: TipoEmprestimo
     ) {
         this.nome = nome
         this.meses = meses

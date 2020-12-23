@@ -38,30 +38,4 @@ class IOF(private val operacao: Operacao): Imposto {
                 .multiply(AliquotaIOF.POR_DIA_CORRIDO.value)
                 .setScale(2, arrendondamento);
     }
-
-    fun exemplo() {
-        /*val dataConcessao: LocalDateTime = LocalDateTime.of(
-            LocalDate.of(2020, 10,10),
-            LocalTime.MIDNIGHT
-        );
-
-        val totalDias: Long = CalculadoraPrazo(this.operacao)
-            .totalDiasCorridos(dataConcessao)
-
-        val totalDiasCorridosMesAtual: Long = CalculadoraPrazo(this.operacao)
-            .totalDiasMesAtual(LocalDateTime.now())
-
-        println(totalDiasCorridosMesAtual)
-
-        var i = 0;
-        var totalPagoImposto: BigDecimal = BigDecimal.ZERO;
-
-       while(i < totalDias) {
-           totalPagoImposto = totalPagoImposto.add(iofDiario());
-           i++;
-       }
-
-        println(totalPagoImposto)*/
-    }
-
 }

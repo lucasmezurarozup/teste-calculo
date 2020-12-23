@@ -1,4 +1,4 @@
-package br.com.emprestimo
+package br.com.proposta
 
 enum class Situacao {
     SOLICITADO,

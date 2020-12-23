@@ -1,4 +1,4 @@
-package br.com.emprestimo
+package br.com.proposta
 
 import java.time.LocalDateTime
 
