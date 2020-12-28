@@ -1,6 +1,7 @@
 package br.com.calculo
 
 import br.com.calculo.aliquotas.AliquotaIOF
+import br.com.proposta.Proposta
 import io.micronaut.context.annotation.Primary
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 
 @Primary
 @Singleton
-class IOF(private val operacao: Operacao): Imposto {
+class IOF(private val proposta: Proposta): Imposto {
 
     private val arrendondamento: RoundingMode = RoundingMode.HALF_DOWN;
 
@@ -28,13 +29,13 @@ class IOF(private val operacao: Operacao): Imposto {
     }
 
     fun iofAdicional(): BigDecimal {
-        return operacao.getValor()
+        return proposta.getValor()
                 .multiply(AliquotaIOF.ADICIONAL.value)
                 .setScale(2, arrendondamento);
     }
 
     fun iofDiario(): BigDecimal {
-        return operacao.getValor()
+        return proposta.getValor()
                 .multiply(AliquotaIOF.POR_DIA_CORRIDO.value)
                 .setScale(2, arrendondamento);
     }

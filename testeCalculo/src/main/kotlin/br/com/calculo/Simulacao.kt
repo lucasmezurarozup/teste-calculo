@@ -11,7 +11,7 @@ class Simulacao {
     var proposta: Proposta
     val arredondamento: RoundingMode = RoundingMode.HALF_DOWN;
 
-    constructor(proposta: Proposta) {
+    constructor(proposta: Proposta, iof: IOF) {
         this.proposta = proposta
     }
 

@@ -19,13 +19,20 @@ class IOFEndpoint: IOFServiceGrpcKt.IOFServiceCoroutineImplBase() {
 
     override suspend fun simular(request: PropostaRequest): SimulacaoResponse {
 
-        val proposta = Proposta(request.nome, request.meses, BigDecimal.valueOf(request.valor), Situacao.SOLICITADO, TipoEmprestimo.MICRO_CREDITO)
+        val proposta = Proposta(request.nome,
+            request.meses,
+            BigDecimal.valueOf(request.valor),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO)
 
         val simulacao = Simulacao(proposta)
         System.out.println("Nome: "+request.nome);
         System.out.println("Meses: "+request.meses);
         System.out.println("Valor: "+request.valor);
 
-        return SimulacaoResponse.newBuilder().setMontanteAPagar(simulacao.calcula().getMontanteAPagar().toDouble()).build()
+        return SimulacaoResponse
+            .newBuilder()
+            .setMontanteAPagar(simulacao.calcula().getMontanteAPagar().toDouble())
+            .build()
     }
 }
