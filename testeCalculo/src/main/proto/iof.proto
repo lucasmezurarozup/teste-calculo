@@ -1,0 +1,26 @@
+syntax = "proto3";
+package br.com.calculo.iof;
+option java_outer_classname = "IOFServiceProto";
+option java_multiple_files = true;
+
+//import "google/type/money.proto";
+
+// The greeting service definition.
+service IOFService {
+  // Sends a greeting
+  rpc Simular (PropostaRequest) returns (SimulacaoResponse) {}
+}
+
+// The request message containing the user's name.
+message PropostaRequest {
+  string nome = 1;
+  int32 meses = 2;
+  //google.type.Money valor = 3;
+  double valor = 3;
+}
+
+// The response message containing the greetings
+message SimulacaoResponse {
+  //google.type.Money montanteAPagar = 1;
+  double montanteAPagar = 1;
+}
