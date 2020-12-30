@@ -6,63 +6,56 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
 
-class Simulacao {
+class Simulacao(
+    private val proposta: Proposta,
+    private val iof: IOF,
+    private val amortizacao: Amortizacao,
+    private val parcela: Parcela) {
 
-    var proposta: Proposta
-    val arredondamento: RoundingMode = RoundingMode.HALF_DOWN;
+    private val arredondamento: RoundingMode = RoundingMode.HALF_DOWN
 
-    constructor(proposta: Proposta) {
-        this.proposta = proposta
-    }
+    private val dataInicio: LocalDate = proposta.getDataCriacao().toLocalDate()
+    private val dataFinal: LocalDate = devolveTotalMeses()
 
     fun calcula(): SimulacaoResponse {
 
-        if (proposta == null) {
-            throw IllegalStateException("O emprestimo está nulo, por favor verificar os parâmetros")
-        }else if (proposta != null && (proposta.getMeses() <= 0 || proposta.getValor().toLong() <= 0)) {
+        if (proposta.getMeses() <= 0 || proposta.getValor().toLong() <= 0) {
             throw IllegalStateException("O emprestimo com informações invalidas!")
         }
 
         if(prazoMaiorQue365Dias()) {
-            var impostoIof = aplicaAliquotaMaximaApos365Dias();
-            var montanteAPagar = montanteAPagar(impostoIof)
+            val impostoIof = iof.iofAliquotaMaxima(proposta.getValor()) //aplicaAliquotaMaximaApos365Dias();
+            montanteAPagar(impostoIof)
 
             return SimulacaoResponse(impostoIof)
         }else {
-            val dataInicio: LocalDate = proposta.getDataCriacao().toLocalDate();
-            var dataFinal: LocalDate = devolveTotalMeses();
-
             var diaAtual = dataInicio
+            var (iofTotal,iofDiarioTotal, impostoIofAdicional) = listOf(BigDecimal.ZERO ,BigDecimal.ZERO, BigDecimal.ZERO)
 
-            var iofTotal = BigDecimal.ZERO;
-            var iofDiarioTotal: BigDecimal = BigDecimal.ZERO;
-            var impostoIofAdicional: BigDecimal = BigDecimal.ZERO;
-
-            var montanteAPagar = devolveValorConcedido();
-            var parcela = devolveParcelaPadrao();
+            var montanteAPagar = devolveValorConcedido()
+            val parcela = parcela.valorPadrao(proposta.getValor(), proposta.getMeses());
 
             var totalDias: Long = 0
 
             while (dataFinal >= diaAtual) {
 
-               val diaVencimento: Boolean = diaAtual.dayOfMonth == dataInicio.dayOfMonth;
-               val naoEhPrimeiroDia: Boolean = diaAtual != dataInicio;
-               val primeiroDia = diaAtual.equals(dataInicio);
-               val diaVencimentoMensal: Boolean = (diaVencimento) && (naoEhPrimeiroDia);
-               val ultimoDiaPrazoAcordado : Boolean = diaAtual == dataFinal;
+               val diaVencimento: Boolean = amortizacao.diaVencimento(diaAtual, dataInicio)//diaAtual.dayOfMonth == dataInicio.dayOfMonth
+               val naoEhPrimeiroDia: Boolean = diaAtual != dataInicio
+               val primeiroDia = diaAtual.equals(dataInicio)
+               val diaVencimentoMensal: Boolean = (diaVencimento) && (naoEhPrimeiroDia)
+               val ultimoDiaPrazoAcordado : Boolean = diaAtual == dataFinal
 
-                var impostoDiario: BigDecimal = aplicaAliquotaIofDiarioAoMontante(montanteAPagar)
-                println("dia " + diaAtual + " - " + impostoDiario + " - " + montanteAPagar)
-
+                val impostoDiario: BigDecimal = aplicaIofDiario(montanteAPagar, diaAtual)
                 iofTotal = iofTotal.add(impostoDiario)
 
                 if (primeiroDia) {
-                    impostoIofAdicional = aplicaIofAdicionalAoMontante(montanteAPagar)
+                    impostoIofAdicional = iof.iofAdicional(montanteAPagar)
                     iofTotal = iofTotal.add(impostoIofAdicional)
                 }
 
+                //verificar a questão de menos de 30 dias. por exemplo FEV ou meses com menos de 31 dias.
                 if (diaVencimentoMensal) {
-                    montanteAPagar = aplicaAmortizacaoParcela(montanteAPagar, parcela);
+                    montanteAPagar = amortizacao.amortizar(montanteAPagar, parcela) //aplicaAmortizacaoParcela(montanteAPagar, parcela);
                     imprimeInformacao(montanteAPagar, iofDiarioTotal, totalDias, diaAtual, parcela)
 
                     if (ultimoDiaPrazoAcordado) {
@@ -77,6 +70,12 @@ class Simulacao {
 
             return SimulacaoResponse(iofTotal.setScale(3, arredondamento))
         }
+    }
+
+    private fun aplicaIofDiario(montanteAPagar: BigDecimal, diaAtual: LocalDate): BigDecimal {
+        val impostoDiario: BigDecimal = iof.iofDiario(montanteAPagar)
+        println("dia " + diaAtual + " - " + impostoDiario + " - " + montanteAPagar)
+        return impostoDiario
     }
 
     private fun imprimeTotalEmIof(impostoIofAdicional: BigDecimal, iofDiarioTotal: BigDecimal) {
@@ -96,26 +95,10 @@ class Simulacao {
     private fun sumarizaAoTotal(iofDiarioTotal: BigDecimal, impostoDiario: BigDecimal) =
             iofDiarioTotal.add(impostoDiario).setScale(5, arredondamento)
 
-    private fun aplicaIofAdicionalAoMontante(montanteAPagar: BigDecimal) =
-            montanteAPagar.multiply(AliquotaIOF.ADICIONAL.value).setScale(5, arredondamento)
-
-    private fun aplicaAliquotaIofDiarioAoMontante(montanteAPagar: BigDecimal) =
-            montanteAPagar.multiply(AliquotaIOF.POR_DIA_CORRIDO.value).setScale(5, arredondamento)
-
-    private fun aplicaAmortizacaoParcela(montanteAPagar: BigDecimal, parcela: BigDecimal) =
-            montanteAPagar.subtract(parcela)
-                    .setScale(2, RoundingMode.HALF_DOWN)
-
     private fun devolveValorConcedido() = proposta.getValor().setScale(2, arredondamento)
 
     private fun prazoMaiorQue365Dias(): Boolean {
         return proposta.getMeses() > 12;
-    }
-
-    private fun aplicaAliquotaMaximaApos365Dias(): BigDecimal {
-        return proposta.getValor()
-            .multiply(AliquotaIOF.ALIQUOTA_MAXIMA.value)
-            .setScale(2, arredondamento)
     }
 
     private fun montanteAPagar(impostoIof: BigDecimal): BigDecimal {
@@ -127,11 +110,5 @@ class Simulacao {
     private fun devolveTotalMeses(): LocalDate {
         return proposta.getDataCriacao()
             .plusMonths(proposta.getMeses().toLong()).toLocalDate()
-    }
-
-    private fun devolveParcelaPadrao(): BigDecimal {
-        return proposta.getValor()
-            .divide(proposta.getMeses().toBigDecimal(), arredondamento)
-            .setScale(3, arredondamento);
     }
 };

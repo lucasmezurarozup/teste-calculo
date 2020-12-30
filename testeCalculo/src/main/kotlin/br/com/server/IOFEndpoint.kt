@@ -1,5 +1,8 @@
 package br.com.server
 
+import br.com.calculo.Amortizacao
+import br.com.calculo.IOF
+import br.com.calculo.Parcela
 import br.com.calculo.Simulacao
 import br.com.calculo.iof.IOFServiceGrpc
 import br.com.calculo.iof.IOFServiceGrpcKt
@@ -25,7 +28,7 @@ class IOFEndpoint: IOFServiceGrpcKt.IOFServiceCoroutineImplBase() {
             Situacao.SOLICITADO,
             TipoEmprestimo.MICRO_CREDITO)
 
-        val simulacao = Simulacao(proposta);
+        val simulacao = Simulacao(proposta, IOF(), Amortizacao(), Parcela());
         System.out.println("Nome: "+request.nome);
         System.out.println("Meses: "+request.meses);
         System.out.println("Valor: "+request.valor);

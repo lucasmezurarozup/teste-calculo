@@ -21,7 +21,7 @@ class CalculoController() {
             Situacao.SOLICITADO,
             TipoEmprestimo.MICRO_CREDITO);
 
-       val simulacao = Simulacao(proposta);
+       val simulacao = Simulacao(proposta, IOF(), Amortizacao(), Parcela());
 
        val simulacaoResponse : SimulacaoResponse = simulacao.calcula()
 

@@ -3,6 +3,7 @@ package br.com.proposta
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class Proposta {
 
@@ -12,8 +13,7 @@ class Proposta {
     private var situacao: Situacao? = null
     private var tipoEmprestimo: TipoEmprestimo? = null
     private val amortizacoes: List<Amortizacao>? = null
-    private val liberacoes: List<Liberacao>? = null
-    private val dataCriacao: LocalDateTime = LocalDateTime.now()
+    private val dataCriacao: LocalDateTime = LocalDateTime.of(LocalDate.of(2020, 12, 31), LocalTime.MIDNIGHT)
     private val dataConcessao: LocalDateTime? = null
     private val dataUltimaAmortizacao: LocalDateTime? = null
 
