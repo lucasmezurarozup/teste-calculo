@@ -33,7 +33,7 @@ class TesteCalculoParcela {
         val proposta: Proposta = Proposta(
             "lucas",
             10,
-            BigDecimal(99),
+            BigDecimal(0),
             Situacao.SOLICITADO,
             TipoEmprestimo.MICRO_CREDITO
         )
@@ -49,7 +49,7 @@ class TesteCalculoParcela {
         val proposta: Proposta = Proposta(
             "lucas",
             16,
-            BigDecimal(99),
+            BigDecimal(0),
             Situacao.SOLICITADO,
             TipoEmprestimo.MICRO_CREDITO
         )

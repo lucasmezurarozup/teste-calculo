@@ -27,7 +27,7 @@ class TesteAmortizacao {
                 proposta.getValor(),
                 Parcela().valorPadrao(proposta.getValor(), proposta.getMeses()))
 
-        Assertions.assertEquals(BigDecimal.valueOf(9000.00).setScale(2, RoundingMode.HALF_DOWN), amortizacao)
+        Assertions.assertEquals(BigDecimal.valueOf(9000.00).setScale(4, RoundingMode.HALF_DOWN), amortizacao)
     }
 
     @Test

@@ -10,10 +10,10 @@ class Amortizacao {
 
     fun amortizar(montanteAPagar: BigDecimal, parcela: BigDecimal): BigDecimal {
 
-        PreCondicoes().verificarAderenciaAoIntervaloPermitido(montanteAPagar)
+        //PreCondicoes().verificarAderenciaAoIntervaloPermitido(montanteAPagar)
 
         return montanteAPagar.subtract(parcela)
-            .setScale(2, RoundingMode.HALF_DOWN);
+            .setScale(4, RoundingMode.HALF_DOWN);
     }
 
     fun diaVencimento(dataAtual: LocalDate, dataInicio: LocalDate): Boolean {
