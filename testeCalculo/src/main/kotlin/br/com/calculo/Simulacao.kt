@@ -12,8 +12,8 @@ class Simulacao(
             throw IllegalStateException("O emprestimo com informações invalidas!")
         }
 
-        return SimulacaoFactory(proposta)
-            .getInstance()
+        return SimulacaoFactory()
+            .tipo(proposta)
             .calcular()
     }
 

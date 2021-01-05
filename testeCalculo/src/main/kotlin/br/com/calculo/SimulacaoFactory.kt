@@ -2,17 +2,16 @@ package br.com.calculo
 
 import br.com.proposta.Proposta
 
-class SimulacaoFactory(private val proposta: Proposta) {
+class SimulacaoFactory() {
 
-    fun getInstance(): Calculo {
-        if(prazoMaiorQue365Dias()) {
+    fun tipo(proposta: Proposta): Calculo {
+
+        val prazoMaiorQue365Dias = proposta.getMeses() > 12
+
+        if(prazoMaiorQue365Dias) {
             return SimularComAliquotaMaxima(proposta, IOF())
         }else {
             return SimularComAliquotaNormal(proposta, IOF())
         }
-    }
-
-    private fun prazoMaiorQue365Dias(): Boolean {
-        return proposta.getMeses() > 12;
     }
 }
