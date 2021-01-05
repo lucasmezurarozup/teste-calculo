@@ -12,15 +12,11 @@ class Simulacao(
             throw IllegalStateException("O emprestimo com informações invalidas!")
         }
 
-        if(prazoMaiorQue365Dias()) {
-            return SimularComAliquotaMaxima(proposta, iof).calcular()
-        }else {
-            return SimularComAliquotaNormal(proposta, iof).calcular()
-        }
+        return SimulacaoFactory(proposta)
+            .getInstance()
+            .calcular()
     }
 
-    private fun prazoMaiorQue365Dias(): Boolean {
-        return proposta.getMeses() > 12;
-    }
+
 
 };

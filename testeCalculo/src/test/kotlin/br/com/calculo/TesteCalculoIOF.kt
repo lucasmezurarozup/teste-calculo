@@ -1,6 +1,9 @@
 package br.com.calculo
 
 import br.com.calculo.aliquotas.AliquotaIOF
+import br.com.proposta.Proposta
+import br.com.proposta.Situacao
+import br.com.proposta.TipoEmprestimo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -63,6 +66,60 @@ class TesteCalculoIOF {
             iof.iofDiario(BigDecimal.valueOf(100000.00))
         }
 
+    }
+
+    @Test
+    fun verificaDiaInicialConcessao() {
+
+        val proposta: Proposta = Proposta(
+            "lucas",
+            12,
+            BigDecimal.valueOf(1000.00),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO
+        )
+
+        val primeiroDia = proposta.getDataCriacao().toLocalDate();
+
+        val datasCobranca: DatasCobranca = DatasCobranca(proposta)
+
+        Assertions.assertEquals(true, datasCobranca.primeiroDia(primeiroDia))
+    }
+
+    @Test
+    fun naoEhODiaInicial() {
+
+        val proposta: Proposta = Proposta(
+            "lucas",
+            12,
+            BigDecimal.valueOf(1000.00),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO
+        )
+
+        val primeiroDia = proposta.getDataCriacao().toLocalDate().plusDays(1);
+
+        val datasCobranca: DatasCobranca = DatasCobranca(proposta)
+
+        Assertions.assertEquals(false, datasCobranca.primeiroDia(primeiroDia))
+    }
+
+    @Test
+    fun verificaDataVencimentoCorretamente() {
+        val proposta: Proposta = Proposta(
+            "lucas",
+            12,
+            BigDecimal.valueOf(1000.00),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO
+        )
+
+        val dataVencimento = proposta.getDataCriacao().toLocalDate().plusDays(30);
+        println(dataVencimento)
+
+        val datasCobranca: DatasCobranca = DatasCobranca(proposta)
+
+        Assertions.assertEquals(false, datasCobranca.diaVencimento(dataVencimento))
     }
 
 }

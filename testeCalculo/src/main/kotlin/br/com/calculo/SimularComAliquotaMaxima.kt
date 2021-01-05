@@ -2,9 +2,9 @@ package br.com.calculo
 
 import br.com.proposta.Proposta
 
-class SimularComAliquotaMaxima(val proposta: Proposta, val iof: IOF) {
+class SimularComAliquotaMaxima(val proposta: Proposta, val iof: IOF): Calculo {
 
-    fun calcular(): SimulacaoResponse {
+    override fun calcular(): SimulacaoResponse {
         val impostoIof = iof.iofAliquotaMaxima(proposta.getValor())
         return SimulacaoResponse(impostoIof)
     }

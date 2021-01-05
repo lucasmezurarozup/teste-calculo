@@ -5,13 +5,13 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
 
-class SimularComAliquotaNormal(private val proposta: Proposta, iof: IOF) {
+class SimularComAliquotaNormal(private val proposta: Proposta, iof: IOF): Calculo {
 
     private val arredondamento: RoundingMode = RoundingMode.HALF_DOWN
     private val parcela = Parcela()
     private val dataFinal = devolveTotalMeses()
 
-    fun calcular(): SimulacaoResponse {
+    override fun calcular(): SimulacaoResponse {
 
         var diaAtual = proposta.getDataCriacao().toLocalDate()
         var iofTotal = BigDecimal.ZERO

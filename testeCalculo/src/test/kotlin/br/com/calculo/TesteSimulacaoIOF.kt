@@ -60,4 +60,36 @@ class TesteSimulacaoIOF {
             simulacao.calcula().getMontanteAPagar()
         )
     }
+
+    @Test
+    fun `simulacao com estrategia de aliquota maxima`() {
+
+        val proposta: Proposta = Proposta(
+            "lucas",
+            15,
+            BigDecimal.valueOf(1000.00),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO
+        )
+
+      val imposto = SimularComAliquotaMaxima(proposta, IOF()).calcular().getMontanteAPagar()
+
+        Assertions.assertEquals(BigDecimal("15.00").setScale(4, RoundingMode.HALF_DOWN), imposto)
+    }
+
+    @Test
+    fun `simulacao com estrategia de aliquota normal`() {
+
+        val proposta: Proposta = Proposta(
+            "lucas",
+            12,
+            BigDecimal.valueOf(1000.00),
+            Situacao.SOLICITADO,
+            TipoEmprestimo.MICRO_CREDITO
+        )
+
+        val imposto = SimularComAliquotaNormal(proposta, IOF()).calcular().getMontanteAPagar()
+
+        Assertions.assertEquals(BigDecimal("11.88").setScale(2, RoundingMode.HALF_DOWN), imposto)
+    }
 }
