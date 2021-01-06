@@ -3,16 +3,16 @@ micronaut:
     port: 8088
   application:
     name: testeCalculo
-datasources:
-  default:
-    url: "jdbc:postgresql://localhost:5442/proposta"
-    username: "${JDBC_DATABASE_USERNAME:keycloak}"
-    password: "${JDBC_DATABASE_PASSWORD:password}"
-    driverClassName: org.postgresql.Driver
-jpa:
-  default:
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: update
-        show_sql: true
+#datasources:
+#  default:
+#    url: "jdbc:postgresql://localhost:5442/proposta"
+#    username: "${JDBC_DATABASE_USERNAME:keycloak}"
+#    password: "${JDBC_DATABASE_PASSWORD:password}"
+#    driverClassName: org.postgresql.Driver
+#jpa:
+#  default:
+#    properties:
+#      hibernate:
+#        hbm2ddl:
+#          auto: update
+#        show_sql: true
