@@ -3,6 +3,6 @@ package br.com.proposta.restricoes
 import java.math.BigDecimal
 
 enum class LimitesConcessao(val value: BigDecimal) {
-    MAXIMO(BigDecimal.valueOf(21000.00)),
-    MINIMO(BigDecimal.valueOf(1.00));
+    MAXIMO(BigDecimal.valueOf(20300.00)),
+    MINIMO(BigDecimal.valueOf(400.00));
 }

@@ -3,8 +3,7 @@ package br.com.calculo
 import br.com.proposta.Proposta
 
 class Simulacao(
-    private val proposta: Proposta,
-    private val iof: IOF) {
+    private val proposta: Proposta) {
 
     fun calcula(): SimulacaoResponse {
 

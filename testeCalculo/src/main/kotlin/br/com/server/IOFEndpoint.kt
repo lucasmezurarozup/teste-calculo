@@ -28,7 +28,7 @@ class IOFEndpoint: IOFServiceGrpcKt.IOFServiceCoroutineImplBase() {
             Situacao.SOLICITADO,
             TipoEmprestimo.MICRO_CREDITO)
 
-        val simulacao = Simulacao(proposta, IOF());
+        val simulacao = Simulacao(proposta);
         System.out.println("Nome: "+request.nome);
         System.out.println("Meses: "+request.meses);
         System.out.println("Valor: "+request.valor);

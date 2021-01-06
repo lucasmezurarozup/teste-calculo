@@ -5,10 +5,9 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
 
-class SimularComAliquotaNormal(private val proposta: Proposta, iof: IOF): Calculo {
+class SimularComAliquotaNormal(private val proposta: Proposta): Calculo {
 
     private val arredondamento: RoundingMode = RoundingMode.HALF_DOWN
-    private val parcela = Parcela()
     private val dataFinal = devolveTotalMeses()
 
     override fun calcular(): SimulacaoResponse {
@@ -17,12 +16,12 @@ class SimularComAliquotaNormal(private val proposta: Proposta, iof: IOF): Calcul
         var iofTotal = BigDecimal.ZERO
 
         var montanteAPagar = devolveValorConcedido()
-        val parcela = parcela.valorPadrao(proposta.getValor(), proposta.getMeses());
+
         val cobranca: Cobranca = Cobranca(proposta)
 
         while (dataFinal >= diaAtual) {
             iofTotal = cobranca.aplicaIof(montanteAPagar, diaAtual)
-            montanteAPagar = cobranca.vencimentoMensal(montanteAPagar, parcela, diaAtual)
+            montanteAPagar = cobranca.vencimentoMensal(montanteAPagar, diaAtual)
 
             diaAtual = diaAtual.plusDays(1)
         }

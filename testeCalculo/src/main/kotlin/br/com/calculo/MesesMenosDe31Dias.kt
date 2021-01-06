@@ -5,5 +5,4 @@ enum class MesesMenosDe31Dias(val value: Int) {
     JUNHO(6),
     SETEMBRO(9),
     NOVEMBRO(11)
-
 }

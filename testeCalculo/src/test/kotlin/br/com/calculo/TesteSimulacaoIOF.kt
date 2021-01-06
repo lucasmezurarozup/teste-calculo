@@ -28,8 +28,7 @@ class TesteSimulacaoIOF {
             TipoEmprestimo.MICRO_CREDITO
         )
         val simulacao: Simulacao = Simulacao(
-            proposta,
-            IOF()
+            proposta
         )
 
         Assertions.assertEquals(
@@ -49,8 +48,7 @@ class TesteSimulacaoIOF {
             TipoEmprestimo.MICRO_CREDITO
         )
         val simulacao: Simulacao = Simulacao(
-            proposta,
-            IOF()
+            proposta
         )
 
         val iofAdicional = IOF().iofAdicional(proposta.getValor())
@@ -88,7 +86,7 @@ class TesteSimulacaoIOF {
             TipoEmprestimo.MICRO_CREDITO
         )
 
-        val imposto = SimularComAliquotaNormal(proposta, IOF()).calcular().getMontanteAPagar()
+        val imposto = SimularComAliquotaNormal(proposta).calcular().getMontanteAPagar()
 
         Assertions.assertEquals(BigDecimal("11.88").setScale(2, RoundingMode.HALF_DOWN), imposto)
     }

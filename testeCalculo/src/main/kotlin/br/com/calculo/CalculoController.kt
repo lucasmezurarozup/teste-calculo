@@ -19,12 +19,12 @@ class CalculoController() {
             propostaRequest.getMeses(),
             propostaRequest.getValor(),
             Situacao.SOLICITADO,
-            TipoEmprestimo.MICRO_CREDITO);
+            TipoEmprestimo.MICRO_CREDITO)
 
-       val simulacao = Simulacao(proposta, IOF());
+       val simulacao = Simulacao(proposta)
 
        val simulacaoResponse : SimulacaoResponse = simulacao.calcula()
 
-        return HttpResponse.ok(simulacaoResponse);
+        return HttpResponse.ok(simulacaoResponse)
     }
 }

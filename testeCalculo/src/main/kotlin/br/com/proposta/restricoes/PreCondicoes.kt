@@ -12,7 +12,7 @@ class PreCondicoes {
     }
 
     fun verificarIntervaloMeses(numeroMeses: Int) {
-        if (numeroMeses <= 0 || numeroMeses > 15) {
+        if (numeroMeses <= LimitePrazo.MAXIMO.value || numeroMeses >= LimitePrazo.MINIMO.value) {
             throw IllegalStateException("Numero de parcelas fora do invervalo permitido.")
         }
     }

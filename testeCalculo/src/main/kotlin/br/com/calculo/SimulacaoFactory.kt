@@ -11,7 +11,7 @@ class SimulacaoFactory() {
         if(prazoMaiorQue365Dias) {
             return SimularComAliquotaMaxima(proposta, IOF())
         }else {
-            return SimularComAliquotaNormal(proposta, IOF())
+            return SimularComAliquotaNormal(proposta)
         }
     }
 }
